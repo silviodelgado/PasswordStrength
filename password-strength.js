@@ -1,5 +1,5 @@
 /*!
-  * Password Strength Checker v1.0.0 (https://www.interart.com/)
+  * Password Strength Checker v1.0.1 (https://www.interart.com/)
   * Copyright 2023 Silvio Delgado (https://github.com/silviodelgado)
   * Licensed under MIT (https://opensource.org/licenses/MIT)
   * https://github.com/silviodelgado/passwordStrength
@@ -37,6 +37,10 @@
     };
 
     const create_bar = () => {
+        let pb = document.querySelector('#pwd-strength .progress');
+        if (pb) {
+            return pb.querySelector('.progress-bar');
+        }
         let pwd = document.createElement('div');
         pwd.classList.add('progress');
         let pwd_bar = document.createElement('div');
