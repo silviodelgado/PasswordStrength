@@ -1,5 +1,5 @@
 /*!
-  * Password Strength Checker v1.0.1 (https://www.interart.com/)
+  * Password Strength Checker v1.1 (https://www.interart.com/)
   * Copyright 2023 Silvio Delgado (https://github.com/silviodelgado)
   * Licensed under MIT (https://opensource.org/licenses/MIT)
   * https://github.com/silviodelgado/passwordStrength
@@ -45,14 +45,22 @@
         pwd.classList.add('progress');
         let pwd_bar = document.createElement('div');
         pwd_bar.classList.add('progress-bar');
-        pwd_bar.style.width = '1%';
         pwd.appendChild(pwd_bar)
         options.container.appendChild(pwd);
         return pwd_bar;
     };
 
+    const reset_bar = () => {
+            options.bar.classList.add('bg-body-tertiary');
+            options.bar.classList.add('text-body-secondary');
+            options.bar.style.width = '100%';
+            options.bar.innerHTML = options.locale.password_strength;
+    };
+
     const init = () => {
         options.bar = create_bar();
+
+        reset_bar();
 
         options.element.addEventListener('keyup', function (evt) {
             check(evt.target.value);
@@ -64,15 +72,13 @@
         options.bar.style = null;
 
         if (password.length == 0) {
-            options.bar.classList.add('bg-secondary');
-            options.bar.style.width = '100%';
-            options.bar.innerHTML = options.locale.password_strength;
+            reset_bar();
             return;
         }
-
+        
         let regex = new Array();
         regex.push("[A-Z]", "[a-z]", "[0-9]", "[$@$!%*#?&]");
-
+        
         let score = 0;
         for (let i = 0; i < regex.length; i++) {
             if (new RegExp(regex[i]).test(password))
@@ -84,6 +90,9 @@
         } else if (password.length < options.minimum_size) {
             score = 3;
         }
+
+        options.bar.classList.remove('bg-body-tertiary');
+        options.bar.classList.remove('text-body-secondary');
 
         const strength = {
             class: '',
